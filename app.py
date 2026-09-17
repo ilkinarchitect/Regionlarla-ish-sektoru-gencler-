@@ -12,11 +12,42 @@ st.markdown("""
     .stApp {background-color: #f7f9f8;} 
     h1, h2, h3 {color: #00995c !important; font-family: 'Arial', sans-serif;}
     [data-testid="stMetricValue"] {color: #ff7900 !important; font-weight: bold; font-size: 1.8rem;}
+    
     /* Sol panelin rəngi (Ağ) */
     [data-testid="stSidebar"] {background-color: #ffffff; border-right: 1px solid #e0e0e0;}
-    .stMultiSelect div div div {background-color: #00995c; color: white; border-radius: 5px;}
+    
     /* Ümumi mətn rəngi tündləşdirilir ki, ağ fonda rahat oxunsun */
     p, span, label, .stMarkdown {color: #333333 !important;}
+    
+    /* --- MULTISELECT QUTULARININ DİZAYNI --- */
+    
+    /* 1. Normal vəziyyətdə (toxunmayanda) çərçivə QARA/TÜND BOZ */
+    .stMultiSelect div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        border: 1px solid #333333 !important; /* Tünd çərçivə */
+        border-radius: 5px !important;
+    }
+    
+    /* 2. Klikləyəndə (Focus) çərçivə QIRMIZI olsun */
+    .stMultiSelect div[data-baseweb="select"] > div:focus-within {
+        border: 2px solid #ff0000 !important; /* Qırmızı çərçivə */
+        box-shadow: 0 0 0 1px #ff0000 !important; /* Kənar parlaqlığını da qırmızı edir */
+    }
+    
+    /* 3. "Choose options" yazısı TÜND və BOLD */
+    .stMultiSelect div[data-baseweb="select"] div[class*="placeholder"] {
+        color: #222222 !important; /* Çox tünd boz/qara */
+        font-weight: bold !important;
+    }
+    
+    /* Seçilən zaman qutunun içindəki tağların (məs: Lənkəran) rəngi (Nazirliyin yaşılı) */
+    .stMultiSelect div[data-baseweb="select"] span[data-baseweb="tag"] {
+        background-color: #00995c !important;
+        color: white !important;
+    }
+    .stMultiSelect div[data-baseweb="select"] span[data-baseweb="tag"] * {
+        color: white !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -157,7 +188,6 @@ with row1_col1:
         values=[planned_executed, unexecuted_planned], 
         hole=.6
     )])
-    # font=dict(color='#333333') məcburi tünd rəng əlavə edildi
     fig_donut.update_traces(textinfo='value', textfont_size=18, marker=dict(colors=['#00995c', '#ff7900']))
     fig_donut.update_layout(margin=dict(t=0, b=0, l=0, r=0), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(color='#333333'))
     st.plotly_chart(fig_donut, use_container_width=True)
